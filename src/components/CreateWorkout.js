@@ -2,8 +2,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import React, { useState } from "react";
 
-function SignUp() {
-   const initialSignUpData = {
+function CreateWorkout() {
+
+	const initialWorkoutData = {
       first_name: "",
       last_name: "",
       username: "",
@@ -12,23 +13,23 @@ function SignUp() {
       password: "",
    };
 
-   const [signUpData, setSignUpData] = useState(initialSignUpData);
+   const [workoutData, setWorkoutData] = useState(initialWorkoutData);
 
    const handleChange = (e) => {
       const { id, value } = e.target;
-      setSignUpData({ ...signUpData, [id]: value });
-      console.log(signUpData);
+      setWorkoutData({ ...workoutData, [id]: value });
+      console.log(workoutData);
    };
 
    const handleSubmit = (e) => {
       e.preventDefault();
       const newUser = {
-         first_name: signUpData.first_name,
-         last_name: signUpData.last_name,
-         username: signUpData.username,
-         email: signUpData.email,
-         phone: parseInt(signUpData.phone),
-         password: signUpData.password,
+         first_name: workoutData.first_name,
+         last_name: workoutData.last_name,
+         username: workoutData.username,
+         email: workoutData.email,
+         phone: parseInt(workoutData.phone),
+         password: workoutData.password,
       };
 		fetch("http://localhost:9292/users", {
 			method: 'POST',
@@ -42,15 +43,16 @@ function SignUp() {
 			})
    };
 
-   return (
+	return (
       <div>
-         <h3>Sign Up</h3>
+         {" "}
+         <h3>New Workout</h3>
          <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="first_name">
                <Form.Label>First Name</Form.Label>
                <Form.Control
                   onChange={handleChange}
-                  value={signUpData.first_name}
+                  value={workoutData.first_name}
                   type="string"
                   placeholder="Enter First Name"
                />
@@ -59,7 +61,7 @@ function SignUp() {
                <Form.Label>Last Name</Form.Label>
                <Form.Control
                   onChange={handleChange}
-                  value={signUpData.last_name}
+                  value={workoutData.last_name}
                   type="string"
                   placeholder="Enter Last Name"
                />
@@ -68,7 +70,7 @@ function SignUp() {
                <Form.Label>Username</Form.Label>
                <Form.Control
                   onChange={handleChange}
-                  value={signUpData.username}
+                  value={workoutData.username}
                   type="string"
                   placeholder="Choose username"
                />
@@ -77,7 +79,7 @@ function SignUp() {
                <Form.Label>Email address</Form.Label>
                <Form.Control
                   onChange={handleChange}
-                  value={signUpData.email}
+                  value={workoutData.email}
                   type="email"
                   placeholder="Enter email"
                />
@@ -86,7 +88,7 @@ function SignUp() {
                <Form.Label>Phone Number</Form.Label>
                <Form.Control
                   onChange={handleChange}
-                  value={signUpData.phone}
+                  value={workoutData.phone}
                   type="integer"
                   placeholder="Enter Phone Number"
                />
@@ -95,7 +97,7 @@ function SignUp() {
                <Form.Label>Password</Form.Label>
                <Form.Control
                   onChange={handleChange}
-                  value={signUpData.password}
+                  value={workoutData.password}
                   type="password"
                   placeholder="Choose Password"
                />
@@ -114,4 +116,4 @@ function SignUp() {
    );
 }
 
-export default SignUp;
+export default CreateWorkout;

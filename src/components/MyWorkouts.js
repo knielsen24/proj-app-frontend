@@ -1,6 +1,4 @@
 import Accordion from "react-bootstrap/Accordion";
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Button from "react-bootstrap/Button";
 
 function MyWorkouts({ userData }) {
    console.log(userData);
