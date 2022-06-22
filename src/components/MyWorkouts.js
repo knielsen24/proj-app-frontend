@@ -1,4 +1,4 @@
-import Accordion from "react-bootstrap/Accordion";
+import Card from "react-bootstrap/Card";
 
 function MyWorkouts({ userData }) {
    console.log(userData);
@@ -6,19 +6,20 @@ function MyWorkouts({ userData }) {
    // const renderExercises = workout.map(exercise => <li>{exercise.name}</li>)
    const renderWorkouts = userData.map((workout, index) => {
       return (
-         <Accordion.Item key={workout.id} eventKey={workout}>
-            <Accordion.Header>
-               {workout.phase} - {workout.name}
-            </Accordion.Header>
-            <Accordion.Body></Accordion.Body>
-         </Accordion.Item>
+         <Card>
+            {/* <Card.Header as="h5">{workout.phase}</Card.Header> */}
+            <Card.Body>
+               <Card.Title>{workout.name}</Card.Title>
+               <Card.Text>Workout Details</Card.Text>
+            </Card.Body>
+         </Card>
       );
    });
 
    return (
       <div>
          <h3>My Workouts</h3>
-         <Accordion>{renderWorkouts}</Accordion>
+         {renderWorkouts}
       </div>
    );
 }
