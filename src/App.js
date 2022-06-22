@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 function App() {
 	const [userData, setUserData] = useState([])
 
-	const baseUrl = " http://localhost:9292/workout_plans/all/users/1";
+	const baseUrl = "http://localhost:9292/workout_plans/all/users/1";
 
 	useEffect(() => {
 		fetch(baseUrl)

@@ -34,8 +34,8 @@ function SignUp() {
                <Form.Label>Password</Form.Label>
                <Form.Control type="password" placeholder="Choose Password" />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-               <Form.Check type="checkbox" label="Check me out" />
+            <Form.Group className="mb-3" controlId="formBasicTerms&Agreement">
+               <Form.Check type="checkbox" label="Acknowledge Terms & Agreement" />
             </Form.Group>
             <Button variant="info" type="submit">
                Submit
