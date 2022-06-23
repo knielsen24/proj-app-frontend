@@ -77,7 +77,9 @@ function App() {
          .then(navigate("myworkouts"));
    };
 
-   // const sortWorkoutList = userWorkoutList.
+   const handleEditProfile = (activeUser) => {
+      navigate("signup");
+   };
 
    return (
       <div>
@@ -136,7 +138,7 @@ function App() {
                   />
                }
             />
-            <Route path="signup" element={<SignUp />} />
+            <Route path="signup" element={<SignUp userLogin={userLogin} user={user}/>} />
             <Route
                path="myworkouts"
                element={
@@ -156,7 +158,12 @@ function App() {
                }
             />
             <Route path="createworkout" element={<CreateWorkout />} />
-            <Route path="myprofile" element={<Profile user={user} />} />
+            <Route
+               path="myprofile"
+               element={
+                  <Profile user={user} handleEditProfile={handleEditProfile} />
+               }
+            />
          </Routes>
       </div>
    );
