@@ -2,10 +2,10 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import ExerciseDetails from "./ExerciseDetails";
 
-function MyWorkout({ workoutData }) {
-   const { name, phase, exercises } = workoutData;
+function MyWorkout({ workoutData, handleDeleteWorkout }) {
+   const { id, name, phase, exercises } = workoutData;
 
-   let renderExercises;
+	let renderExercises;
 
    if (exercises) {
       renderExercises = exercises.map((movement) => {
@@ -21,6 +21,9 @@ function MyWorkout({ workoutData }) {
             <Card.Text>{renderExercises}</Card.Text>
             <Button variant="secondary" size="sm">
                Edit Workout
+            </Button>
+				<Button variant="danger" size="sm" onClick={()=> handleDeleteWorkout(id)}>
+               Delete Workout
             </Button>
          </Card.Body>
          <Card.Footer className="text-muted">

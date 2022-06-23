@@ -2,13 +2,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import React, { useState } from "react";
 
-function LogIn({ handleLogin, userLogin }) {
-
-	const initialLoginData = {
-      email: "",
-      password: "",
-      loggedin: false,
-   };
+function LogIn({ handleUpdateLogin }) {
+   const initialLoginData = { email: "", password: "" };
 
    const [loginData, setloginData] = useState(initialLoginData);
 
@@ -27,19 +22,6 @@ function LogIn({ handleLogin, userLogin }) {
             data.loggedin === false
                ? handleUpdateLogin(data)
                : alert("Error - Please Enter Correct Login credentials");
-         });
-   };
-
-   const handleUpdateLogin = (data) => {
-      const checkLogIn = { loggedin: true };
-      fetch(`http://localhost:9292/login/users/${data.id}`, {
-         method: "PATCH",
-         headers: { "Content-Type": "application/json" },
-         body: JSON.stringify(checkLogIn),
-      })
-         .then((resp) => resp.json())
-         .then((data) => {
-            handleLogin(data);
          });
    };
 

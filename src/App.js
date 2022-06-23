@@ -11,44 +11,73 @@ import WorkoutList from "./components/WorkoutList";
 import React, { useEffect, useState } from "react";
 import CreateWorkout from "./components/CreateWorkout";
 import MyWorkout from "./components/MyWorkout";
+import Profile from "./components/Profile";
 
 function App() {
    const [workoutData, setWorkoutData] = useState([]);
-   const [userWorkoutData, setUserWorkoutData] = useState([]);
+   const [userWorkoutList, setUserWorkoutList] = useState([]);
    const [user, setUser] = useState([]);
-   const [error, setError] = useState("");
    const [userLogin, setUserLogin] = useState(false);
 
-	let { workoutId } = useParams();
+   let { workoutId } = useParams();
    let navigate = useNavigate();
 
-	const handleLogin = (activeUser) => {
+   const handleUser = (activeUser) => {
       setUser(activeUser);
-      activeUser.loggedin ? setUserLogin(true) : setUserLogin(false);
-		handleWorkoutList(activeUser.id)
-		navigate('myworkouts')
+      handleWorkoutList(activeUser.id);
+      if (activeUser.loggedin) return setUserLogin(true);
    };
 
-	const handleLogout = () =>{
-		if (userLogin === true) {
-			
-		}
-	}
+   const handleLogout = (user) => {
+      if (userLogin === true) return handleUpdateLogin(user);
+   };
 
-   const baseUrl = "http://localhost:9292/workout_plans/all/users/1";
+   const handleUpdateLogin = (data) => {
+      let checkLogin;
+      !userLogin
+         ? (checkLogin = { loggedin: true })
+         : (checkLogin = { loggedin: false });
+
+      fetch(`http://localhost:9292/login/users/${data.id}`, {
+         method: "PATCH",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify(checkLogin),
+      })
+         .then((resp) => resp.json())
+         .then((data) => {
+            data.loggedin ? handleUser(data) : setUserLogin(false);
+         });
+   };
 
    const handleWorkoutList = (id) => {
-      fetch(baseUrl)
+      fetch(`http://localhost:9292/workout_plans/all/users/${id}`)
          .then((resp) => resp.json())
-         .then((data) => setUserWorkoutData(data));
+         .then((data) => setUserWorkoutList(data))
+         .then(navigate("myworkouts"));
    };
 
    const handleViewWorkout = (id) => {
       fetch(`http://localhost:9292/workout_plans/${id}`)
          .then((resp) => resp.json())
          .then((data) => setWorkoutData(data))
-         .then(navigate(`myworkouts/${id}`));
+         .then(navigate(`/myworkouts/${id}`));
    };
+
+   const handleDeleteWorkout = (id) => {
+      fetch(`http://localhost:9292/workout_plans/${id}`, {
+         method: "DELETE",
+      })
+         .then((resp) => resp.json())
+         .then(() => {
+            const deleteWorkout = userWorkoutList.filter(
+               (workout) => workout.id !== id
+            );
+            setUserWorkoutList(deleteWorkout);
+         })
+         .then(navigate("myworkouts"));
+   };
+
+   // const sortWorkoutList = userWorkoutList.
 
    return (
       <div>
@@ -64,23 +93,33 @@ function App() {
                      style={{ maxHeight: "75px" }}
                      navbarScroll
                   >
-                     <Nav.Link
-                        as={Link}
-                        to="/myworkouts"
-                        onClick={handleWorkoutList}
-                     >
-                        My Workouts
-                     </Nav.Link>
-                     <Nav.Link as={Link} to="/createworkout">
-                        Create Workout
-                     </Nav.Link>
+                     {userLogin ? (
+                        <Nav.Link as={Link} to="/myworkouts">
+                           My Workouts
+                        </Nav.Link>
+                     ) : null}
+                     {userLogin ? (
+                        <Nav.Link as={Link} to="/createworkout">
+                           Create Workout
+                        </Nav.Link>
+                     ) : null}
+                     {userLogin ? (
+                        <Nav.Link as={Link} to="/myprofile">
+                           Profile
+                        </Nav.Link>
+                     ) : null}
                      {userLogin ? null : (
                         <Nav.Link as={Link} to="/signup">
                            Sign Up
                         </Nav.Link>
                      )}
                   </Nav>
-                  <Button as={Link} to="/login" variant="outline-info" onClick={handleLogout}>
+                  <Button
+                     as={Link}
+                     to="/login"
+                     variant="outline-info"
+                     onClick={user ? handleLogout : null}
+                  >
                      {userLogin ? "Log Out" : "Log In"}
                   </Button>{" "}
                </Navbar.Collapse>
@@ -88,22 +127,36 @@ function App() {
          </Navbar>
          <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="login" element={<LogIn handleLogin={handleLogin} />} />
+            <Route
+               path="login"
+               element={
+                  <LogIn
+                     handleUser={handleUser}
+                     handleUpdateLogin={handleUpdateLogin}
+                  />
+               }
+            />
             <Route path="signup" element={<SignUp />} />
             <Route
                path="myworkouts"
                element={
                   <WorkoutList
-                     userWorkoutData={userWorkoutData}
+                     userWorkoutList={userWorkoutList}
                      handleViewWorkout={handleViewWorkout}
                   />
                }
             />
             <Route
                path="myworkouts/:workoutId"
-               element={<MyWorkout workoutData={workoutData} />}
+               element={
+                  <MyWorkout
+                     workoutData={workoutData}
+                     handleDeleteWorkout={handleDeleteWorkout}
+                  />
+               }
             />
             <Route path="createworkout" element={<CreateWorkout />} />
+            <Route path="myprofile" element={<Profile user={user} />} />
          </Routes>
       </div>
    );
