@@ -17,7 +17,6 @@ function SignUp() {
    const handleChange = (e) => {
       const { id, value } = e.target;
       setSignUpData({ ...signUpData, [id]: value });
-      console.log(signUpData);
    };
 
    const handleSubmit = (e) => {
@@ -38,7 +37,6 @@ function SignUp() {
 			.then(resp => resp.json())
 			.then(data => {
 				console.log(data)
-
 			})
    };
 

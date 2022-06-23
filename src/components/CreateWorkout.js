@@ -46,7 +46,7 @@ function CreateWorkout() {
 	return (
       <div>
          {" "}
-         <h3>New Workout</h3>
+         <h3>Create Workout</h3>
          <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="first_name">
                <Form.Label>First Name</Form.Label>
