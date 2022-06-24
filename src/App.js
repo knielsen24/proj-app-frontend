@@ -183,7 +183,7 @@ function App() {
                   />
                }
             />
-            <Route path="createworkout" element={<CreateWorkout />} />
+            <Route path="createworkout" element={<CreateWorkout user={user} />} />
             <Route
                path="myprofile"
                element={

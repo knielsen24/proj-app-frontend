@@ -1,117 +1,73 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import React, { useState } from "react";
+import AddExerciseForm from "./AddExerciseForm";
 
-function CreateWorkout() {
-
-	const initialWorkoutData = {
-      first_name: "",
-      last_name: "",
-      username: "",
-      email: "",
-      phone: "",
-      password: "",
+function CreateWorkout({ user }) {
+   const initialWorkoutData = {
+      name: "",
+      phase: "",
+      user_id: "",
    };
 
    const [workoutData, setWorkoutData] = useState(initialWorkoutData);
+   const [workoutForm, setWorkoutForm] = useState("default");
 
    const handleChange = (e) => {
       const { id, value } = e.target;
       setWorkoutData({ ...workoutData, [id]: value });
-      console.log(workoutData);
    };
 
    const handleSubmit = (e) => {
       e.preventDefault();
-      const newUser = {
-         first_name: workoutData.first_name,
-         last_name: workoutData.last_name,
-         username: workoutData.username,
-         email: workoutData.email,
-         phone: parseInt(workoutData.phone),
-         password: workoutData.password,
+      const newWorkout = {
+         name: workoutData.name,
+         phase: parseInt(workoutData.phase),
+         user_id: user.id,
       };
-		fetch("http://localhost:9292/users", {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(newUser)
-		})
-			.then(resp => resp.json())
-			.then(data => {
-				console.log(data)
-
-			})
+      console.log(newWorkout);
+      fetch("http://localhost:9292/workout_plans", {
+         method: "POST",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify(newWorkout),
+      })
+         .then((resp) => resp.json())
+         .then((data) => {
+            setWorkoutData(data);
+            setWorkoutForm("exercise");
+         });
    };
 
-	return (
+   return (
       <div>
          {" "}
          <h3>Create Workout</h3>
          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="first_name">
-               <Form.Label>First Name</Form.Label>
+            <Form.Group className="mb-3" controlId="name">
+               <Form.Label>Name Your workout</Form.Label>
                <Form.Control
                   onChange={handleChange}
-                  value={workoutData.first_name}
+                  value={workoutData.name}
                   type="string"
-                  placeholder="Enter First Name"
+                  placeholder="Enter Workout Name"
                />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="last_name">
-               <Form.Label>Last Name</Form.Label>
+            <Form.Group className="mb-3" controlId="phase">
+               <Form.Label>Select Your Phase</Form.Label>
                <Form.Control
                   onChange={handleChange}
-                  value={workoutData.last_name}
-                  type="string"
-                  placeholder="Enter Last Name"
-               />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="username">
-               <Form.Label>Username</Form.Label>
-               <Form.Control
-                  onChange={handleChange}
-                  value={workoutData.username}
-                  type="string"
-                  placeholder="Choose username"
-               />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="email">
-               <Form.Label>Email address</Form.Label>
-               <Form.Control
-                  onChange={handleChange}
-                  value={workoutData.email}
-                  type="email"
-                  placeholder="Enter email"
-               />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="phone">
-               <Form.Label>Phone Number</Form.Label>
-               <Form.Control
-                  onChange={handleChange}
-                  value={workoutData.phone}
+                  value={workoutData.phase}
                   type="integer"
-                  placeholder="Enter Phone Number"
+                  placeholder="Enter Phase Number"
                />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="password">
-               <Form.Label>Password</Form.Label>
-               <Form.Control
-                  onChange={handleChange}
-                  value={workoutData.password}
-                  type="password"
-                  placeholder="Choose Password"
-               />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="terms">
-               <Form.Check
-                  type="checkbox"
-                  label="Acknowledge Terms and Agreement"
-               />
-            </Form.Group>
-            <Button variant="info" type="submit">
-               Submit
-            </Button>
+            {workoutForm === "exercise" ? null : (
+               <Button variant="success" type="submit" size="sm">
+                  Add Exercises
+               </Button>
+            )}
          </Form>
+         {workoutForm === "exercise" ? <AddExerciseForm {...user} workoutData={workoutData} /> : null}
       </div>
    );
 }
