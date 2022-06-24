@@ -32,7 +32,8 @@ function CreateWorkout({ user, handleWorkoutList }) {
       })
          .then((resp) => resp.json())
          .then((data) => {
-            setWorkoutData(data);
+            console.log(data)
+				setWorkoutData(data);
             setWorkoutForm("exercise");
          });
    };
