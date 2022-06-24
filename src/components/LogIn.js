@@ -9,20 +9,19 @@ function LogIn({ handleUpdateLogin }) {
 
    const handleChange = (e) => {
       const { id, value } = e.target;
-      setloginData({ ...loginData, [id]: value });
+      setloginData((loginData) => ({ ...loginData, [id]: value }));
    };
 
    const handleSubmit = (e) => {
       e.preventDefault();
-
-      // const credentials = {
-      //    email: loginData.email,
-      //    password: loginData.password,
-      // };
-
-      fetch("http://localhost:9292/users/")
+      fetch("http://localhost:9292/users/login", {
+         method: "POST",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify(loginData),
+      })
          .then((resp) => resp.json())
          .then((data) => {
+            console.log(data);
             data.email === loginData.email &&
             data.password === loginData.password &&
             data.loggedin === false

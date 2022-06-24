@@ -1,8 +1,9 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import React, { useState } from "react";
+import AddRepsForm from "./AddRepsForm";
 
-function AddExerciseForm({ id, workoutData }) {
+function AddExerciseForm({ workoutData, workoutForm, setWorkoutForm }) {
    const initialExerciseData = {
       name: "",
       equipment: "",
@@ -18,7 +19,6 @@ function AddExerciseForm({ id, workoutData }) {
    const handleChange = (e) => {
       const { id, value } = e.target;
       setExerciseData({ ...exerciseData, [id]: value });
-      console.log(exerciseData);
    };
 
    const handleSubmit = (e) => {
@@ -36,22 +36,23 @@ function AddExerciseForm({ id, workoutData }) {
       })
          .then((resp) => resp.json())
          .then((data) => {
-            setExerciseData(data);
+            setExerciseData(data)
+				// setWorkoutForm("sets")
          });
    };
 
    const handleAddExercise = () => {
-      count.length < 5 ? setCount([...count, 1]) : setCount(count);
+      count.length < 1 ? setCount([...count, 1]) : setCount(count);
    };
 
-	const handleRemoveExercise = () => {
-		count.length > 1 ? setCount(count.slice(1)) : setCount(count)
-	}
+   const handleRemoveExercise = () => {
+      count.length > 1 ? setCount(count.slice(1)) : setCount(count);
+   };
 
    const renderExercises = count.map((index) => {
       return (
          <div>
-            <Form.Group className="mb-3" controlId={`name${index}`}>
+            <Form.Group className="mb-3" controlId="name">
                <Form.Label>Exercise Name</Form.Label>
                <Form.Control
                   onChange={handleChange}
@@ -60,7 +61,7 @@ function AddExerciseForm({ id, workoutData }) {
                   placeholder="Enter Exercise Name"
                />
             </Form.Group>
-            <Form.Group className="mb-3" controlId={`equipment${index}`}>
+            <Form.Group className="mb-3" controlId="equipment">
                <Form.Label>Equipment</Form.Label>
                <Form.Control
                   onChange={handleChange}
@@ -80,7 +81,7 @@ function AddExerciseForm({ id, workoutData }) {
             <Button variant="danger" size="sm" onClick={handleRemoveExercise}>
                -
             </Button>
-				<Button variant="secondary" size="sm" onClick={handleAddExercise}>
+            <Button variant="secondary" size="sm" onClick={handleAddExercise}>
                +
             </Button>
             <div>
@@ -89,6 +90,14 @@ function AddExerciseForm({ id, workoutData }) {
                </Button>
             </div>
          </Form>
+			{workoutForm === "sets" ? (
+            <AddRepsForm
+               {...user}
+               workoutData={workoutData}
+               workoutForm={workoutForm}
+					setWorkoutForm={setWorkoutForm}
+            />
+         ) : null}
       </div>
    );
 }

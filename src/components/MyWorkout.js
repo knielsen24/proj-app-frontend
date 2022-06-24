@@ -15,7 +15,7 @@ function MyWorkout({ workoutData, handleDeleteWorkout }) {
 
    return (
       <Card className="text-center">
-         <Card.Header>{phase}</Card.Header>
+         <Card.Header>PHASE: {phase}</Card.Header>
          <Card.Body>
             <Card.Title>{name}</Card.Title>
             <Card.Text>{renderExercises}</Card.Text>

@@ -61,13 +61,20 @@ function CreateWorkout({ user }) {
                   placeholder="Enter Phase Number"
                />
             </Form.Group>
-            {workoutForm === "exercise" ? null : (
+            {workoutForm === "exercise" || workoutForm === "sets" ? null : (
                <Button variant="success" type="submit" size="sm">
                   Add Exercises
                </Button>
             )}
          </Form>
-         {workoutForm === "exercise" ? <AddExerciseForm {...user} workoutData={workoutData} /> : null}
+         {workoutForm === "exercise" || workoutForm === "sets" ? (
+            <AddExerciseForm
+               {...user}
+               workoutData={workoutData}
+               workoutForm={workoutForm}
+					setWorkoutForm={setWorkoutForm}
+            />
+         ) : null}
       </div>
    );
 }
