@@ -20,6 +20,7 @@ function AddRepsForm() {
       setRepsData({ ...repsData, [id]: value });
    };
 
+
    const handleSubmit = (e) => {
       e.preventDefault();
       const newSet = {
@@ -28,7 +29,7 @@ function AddRepsForm() {
          exercise_id: repsData.exercise_id,
 			// workout_plan_id: workoutData.id,
       };
-      console.log(newSet);
+
       fetch(`http://localhost:9292/workout_plans/${????}`, {
          method: "POST",
          headers: { "Content-Type": "application/json" },
@@ -47,7 +48,7 @@ function AddRepsForm() {
                <Form.Label>Exercise Name</Form.Label>
                <Form.Control
                   onChange={handleChange}
-                  value={workoutData.reps}
+                  value={repsData.reps}
                   type="string"
                   placeholder="Enter Exercise Name"
                />
@@ -56,7 +57,7 @@ function AddRepsForm() {
                <Form.Label>Equipment</Form.Label>
                <Form.Control
                   onChange={handleChange}
-                  value={workoutData.weight}
+                  value={repsData.weight}
                   type="string"
                   placeholder="Enter Equipment"
                />

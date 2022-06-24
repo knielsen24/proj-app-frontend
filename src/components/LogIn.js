@@ -21,7 +21,6 @@ function LogIn({ handleUpdateLogin }) {
       })
          .then((resp) => resp.json())
          .then((data) => {
-            console.log(data);
             data.email === loginData.email &&
             data.password === loginData.password &&
             data.loggedin === false

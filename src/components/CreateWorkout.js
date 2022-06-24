@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import React, { useState } from "react";
 import AddExerciseForm from "./AddExerciseForm";
 
-function CreateWorkout({ user }) {
+function CreateWorkout({ user, handleWorkoutList }) {
    const initialWorkoutData = {
       name: "",
       phase: "",
@@ -25,7 +25,6 @@ function CreateWorkout({ user }) {
          phase: parseInt(workoutData.phase),
          user_id: user.id,
       };
-      console.log(newWorkout);
       fetch("http://localhost:9292/workout_plans", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
@@ -62,20 +61,17 @@ function CreateWorkout({ user }) {
                      placeholder="Enter Phase Number"
                   />
                </Form.Group>
-               <div>
-                  <Form.Label>Click Create to Add Exercises</Form.Label>
-               </div>
                <Button variant="success" type="submit" size="sm">
-                  Create
+                  Next
                </Button>
             </Form>
          )}
          {workoutForm === "exercise" ? (
             <AddExerciseForm
-               {...user}
                workoutData={workoutData}
                workoutForm={workoutForm}
                setWorkoutForm={setWorkoutForm}
+               handleWorkoutList={handleWorkoutList}
             />
          ) : null}
       </div>

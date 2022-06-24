@@ -2,8 +2,14 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import React, { useState } from "react";
 
-function AddExerciseForm({ workoutData, workoutForm, setWorkoutForm, user }) {
-   const initialExerciseData = {
+function AddExerciseForm({
+   workoutData,
+   workoutForm,
+   setWorkoutForm,
+   handleWorkoutList,
+}) {
+
+	const initialExerciseData = {
       name: "",
       equipment: "",
       workout_plan_id: "",
@@ -27,23 +33,24 @@ function AddExerciseForm({ workoutData, workoutForm, setWorkoutForm, user }) {
          equipment: exerciseData.equipment,
          workout_plan_id: workoutData.id,
       };
-      console.log(newExcercise);
       fetch(`http://localhost:9292/workout_plans/${workoutData.id}`, {
          method: "POST",
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify(newExcercise),
       })
          .then((resp) => resp.json())
-         .then((data) => {
-            setExerciseData(data);
-         });
+         .then(() => setExerciseData(initialExerciseData));
+   };
+
+   const handleRedirect = (id) => {
+      handleWorkoutList(id);
    };
 
    const renderExercises = count.map((index) => {
       return (
          <div>
-            <Form.Label>Workout Name: {workoutData.name} </Form.Label>
-            <Form.Label>Phase: {workoutData.phase} </Form.Label>
+            <h5>Workout Name: {workoutData.name} </h5>
+            <p>Phase: {workoutData.phase} </p>
             <Form.Group className="mb-3" controlId="name">
                <Form.Label>Exercise Name</Form.Label>
                <Form.Control
@@ -74,11 +81,17 @@ function AddExerciseForm({ workoutData, workoutForm, setWorkoutForm, user }) {
                <Button variant="success" type="submit" size="sm">
                   Add Exercise
                </Button>
-               <Button variant="info" size="sm">
-                  Finalize Exercises
-               </Button>
             </div>
          </Form>
+         <div>
+            <Button
+               variant="info"
+               size="sm"
+               onClick={() => handleRedirect(workoutData.user_id)}
+            >
+               Finalize Exercises
+            </Button>
+         </div>
       </div>
    );
 }
