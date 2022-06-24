@@ -28,6 +28,11 @@ function App() {
       if (activeUser.loggedin) return setUserLogin(true);
    };
 
+   const handleProfileUpdate = (activeUser) => {
+      setUser(activeUser);
+      navigate("myprofile");
+   };
+
    const handleLogout = (user) => {
       if (userLogin === true) return handleUpdateLogin(user);
    };
@@ -77,10 +82,6 @@ function App() {
          .then(navigate("myworkouts"));
    };
 
-   const handleEditProfile = (activeUser) => {
-      navigate("signup");
-   };
-
    return (
       <div>
          <Navbar fixed="sticky" bg="dark" variant="dark" expand="sm">
@@ -117,6 +118,7 @@ function App() {
                      )}
                   </Nav>
                   <Button
+                     size="sm"
                      as={Link}
                      to="/login"
                      variant="outline-info"
@@ -138,7 +140,18 @@ function App() {
                   />
                }
             />
-            <Route path="signup" element={<SignUp userLogin={userLogin} user={user}/>} />
+            <Route
+               path="signup"
+               element={
+                  <SignUp
+                     userLogin={userLogin}
+                     user={user}
+                     handleUpdateLogin={handleUpdateLogin}
+                     navigate={navigate}
+                     handleProfileUpdate={handleProfileUpdate}
+                  />
+               }
+            />
             <Route
                path="myworkouts"
                element={
@@ -161,7 +174,7 @@ function App() {
             <Route
                path="myprofile"
                element={
-                  <Profile user={user} handleEditProfile={handleEditProfile} />
+                  <Profile user={user} navigate={navigate} />
                }
             />
          </Routes>

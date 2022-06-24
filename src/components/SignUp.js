@@ -2,9 +2,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import React, { useState } from "react";
 
-function SignUp({ userLogin, user }) {
+function SignUp({ userLogin, user, handleProfileUpdate, navigate }) {
 
-	console.log(user.id)
 	let initialUserData;
 
    if (userLogin) {
@@ -52,8 +51,9 @@ function SignUp({ userLogin, user }) {
       })
          .then((resp) => resp.json())
          .then((data) => {
-            console.log(data);
-         });
+
+			})
+			.then(navigate("login"))
    };
 
 	const handleUpdate = (e) => {
@@ -65,15 +65,16 @@ function SignUp({ userLogin, user }) {
          email: signUpData.email,
          phone: parseInt(signUpData.phone),
          password: signUpData.password,
+			loggedin: true
       };
-		fetch(`http://localhost:9292/users${user.id}`, {
+		fetch(`http://localhost:9292/users/${user.id}`, {
          method: "PATCH",
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify(updateUser),
       })
          .then((resp) => resp.json())
          .then((data) => {
-            console.log(data);
+				handleProfileUpdate(data)
          });
    };
 

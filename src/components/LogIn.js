@@ -14,7 +14,13 @@ function LogIn({ handleUpdateLogin }) {
 
    const handleSubmit = (e) => {
       e.preventDefault();
-      fetch("http://localhost:9292/users")
+
+      // const credentials = {
+      //    email: loginData.email,
+      //    password: loginData.password,
+      // };
+
+      fetch("http://localhost:9292/users/")
          .then((resp) => resp.json())
          .then((data) => {
             data.email === loginData.email &&

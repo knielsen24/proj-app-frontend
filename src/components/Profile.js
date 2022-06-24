@@ -1,9 +1,12 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
-function Profile({ user, handleEditProfile }) {
+function Profile({ user, navigate }) {
    const { username, email, first_name, last_name, phone } = user;
-   return (
+
+
+
+	return (
       <div>
          <h3>Profile</h3>
          <Card className="text-center">
@@ -12,7 +15,7 @@ function Profile({ user, handleEditProfile }) {
                <Button
                   variant="info"
                   size="sm"
-                  onClick={() => handleEditProfile(user)}
+                  onClick={() => navigate("signup")}
                >
                   Edit Profile
                </Button>
