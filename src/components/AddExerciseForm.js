@@ -1,9 +1,8 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import React, { useState } from "react";
-import AddRepsForm from "./AddRepsForm";
 
-function AddExerciseForm({ workoutData, workoutForm, setWorkoutForm }) {
+function AddExerciseForm({ workoutData, workoutForm, setWorkoutForm, user }) {
    const initialExerciseData = {
       name: "",
       equipment: "",
@@ -36,22 +35,15 @@ function AddExerciseForm({ workoutData, workoutForm, setWorkoutForm }) {
       })
          .then((resp) => resp.json())
          .then((data) => {
-            setExerciseData(data)
-				// setWorkoutForm("sets")
+            setExerciseData(data);
          });
-   };
-
-   const handleAddExercise = () => {
-      count.length < 1 ? setCount([...count, 1]) : setCount(count);
-   };
-
-   const handleRemoveExercise = () => {
-      count.length > 1 ? setCount(count.slice(1)) : setCount(count);
    };
 
    const renderExercises = count.map((index) => {
       return (
          <div>
+            <Form.Label>Workout Name: {workoutData.name} </Form.Label>
+            <Form.Label>Phase: {workoutData.phase} </Form.Label>
             <Form.Group className="mb-3" controlId="name">
                <Form.Label>Exercise Name</Form.Label>
                <Form.Control
@@ -78,28 +70,32 @@ function AddExerciseForm({ workoutData, workoutForm, setWorkoutForm }) {
       <div>
          <Form onSubmit={handleSubmit}>
             {renderExercises}
-            <Button variant="danger" size="sm" onClick={handleRemoveExercise}>
-               -
-            </Button>
-            <Button variant="secondary" size="sm" onClick={handleAddExercise}>
-               +
-            </Button>
             <div>
-               <Button variant="info" type="submit" size="sm">
-                  Submit
+               <Button variant="success" type="submit" size="sm">
+                  Add Exercise
+               </Button>
+               <Button variant="info" size="sm">
+                  Finalize Exercises
                </Button>
             </div>
          </Form>
-			{workoutForm === "sets" ? (
-            <AddRepsForm
-               {...user}
-               workoutData={workoutData}
-               workoutForm={workoutForm}
-					setWorkoutForm={setWorkoutForm}
-            />
-         ) : null}
       </div>
    );
 }
 
 export default AddExerciseForm;
+
+// const handleAddExercise = () => {
+// 	count.length < 5 ? setCount([...count, 1]) : setCount(count);
+// };
+
+// const handleRemoveExercise = () => {
+// 	count.length > 1 ? setCount(count.slice(1)) : setCount(count);
+// };
+
+// <Button variant="danger" size="sm" onClick={handleRemoveExercise}>
+//             -
+//          </Button>
+//          <Button variant="secondary" size="sm" onClick={handleAddExercise}>
+//             +
+//          </Button>

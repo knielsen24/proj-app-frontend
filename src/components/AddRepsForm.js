@@ -26,10 +26,10 @@ function AddRepsForm() {
          reps: repsData.reps,
          weight: repsData.weight,
          exercise_id: repsData.exercise_id,
-			workout_plan_id: workoutData.id,
+			// workout_plan_id: workoutData.id,
       };
       console.log(newSet);
-      fetch(`http://localhost:9292/workout_plans/${workoutData.id}`, {
+      fetch(`http://localhost:9292/workout_plans/${????}`, {
          method: "POST",
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify(newSet),
@@ -43,20 +43,24 @@ function AddRepsForm() {
 
 	return (
 		<div>
-			<Form onSubmit={handleSubmit}>
-            {renderExercises}
-            <Button variant="danger" size="sm" onClick={handleRemoveExercise}>
-               -
-            </Button>
-            <Button variant="secondary" size="sm" onClick={handleAddExercise}>
-               +
-            </Button>
-            <div>
-               <Button variant="info" type="submit" size="sm">
-                  Submit
-               </Button>
-            </div>
-         </Form>
+			 <Form.Group className="mb-3" controlId="name">
+               <Form.Label>Exercise Name</Form.Label>
+               <Form.Control
+                  onChange={handleChange}
+                  value={workoutData.reps}
+                  type="string"
+                  placeholder="Enter Exercise Name"
+               />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="equipment">
+               <Form.Label>Equipment</Form.Label>
+               <Form.Control
+                  onChange={handleChange}
+                  value={workoutData.weight}
+                  type="string"
+                  placeholder="Enter Equipment"
+               />
+            </Form.Group>
 		</div>
 	);;
 }

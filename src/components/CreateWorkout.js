@@ -42,37 +42,40 @@ function CreateWorkout({ user }) {
       <div>
          {" "}
          <h3>Create Workout</h3>
-         <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="name">
-               <Form.Label>Name Your workout</Form.Label>
-               <Form.Control
-                  onChange={handleChange}
-                  value={workoutData.name}
-                  type="string"
-                  placeholder="Enter Workout Name"
-               />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="phase">
-               <Form.Label>Select Your Phase</Form.Label>
-               <Form.Control
-                  onChange={handleChange}
-                  value={workoutData.phase}
-                  type="integer"
-                  placeholder="Enter Phase Number"
-               />
-            </Form.Group>
-            {workoutForm === "exercise" || workoutForm === "sets" ? null : (
+         {workoutForm === "exercise" ? null : (
+            <Form onSubmit={handleSubmit}>
+               <Form.Group className="mb-3" controlId="name">
+                  <Form.Label>Name Your workout</Form.Label>
+                  <Form.Control
+                     onChange={handleChange}
+                     value={workoutData.name}
+                     type="string"
+                     placeholder="Enter Workout Name"
+                  />
+               </Form.Group>
+               <Form.Group className="mb-3" controlId="phase">
+                  <Form.Label>Select Your Phase</Form.Label>
+                  <Form.Control
+                     onChange={handleChange}
+                     value={workoutData.phase}
+                     type="integer"
+                     placeholder="Enter Phase Number"
+                  />
+               </Form.Group>
+               <div>
+                  <Form.Label>Click Create to Add Exercises</Form.Label>
+               </div>
                <Button variant="success" type="submit" size="sm">
-                  Add Exercises
+                  Create
                </Button>
-            )}
-         </Form>
-         {workoutForm === "exercise" || workoutForm === "sets" ? (
+            </Form>
+         )}
+         {workoutForm === "exercise" ? (
             <AddExerciseForm
                {...user}
                workoutData={workoutData}
                workoutForm={workoutForm}
-					setWorkoutForm={setWorkoutForm}
+               setWorkoutForm={setWorkoutForm}
             />
          ) : null}
       </div>
