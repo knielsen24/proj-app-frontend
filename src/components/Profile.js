@@ -1,8 +1,8 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
-function Profile({ user, navigate }) {
-   const { username, email, first_name, last_name, phone } = user;
+function Profile({ user, navigate, handleDeleteUser }) {
+   const { id, username, email, first_name, last_name, phone } = user;
 
 
 
@@ -36,7 +36,7 @@ function Profile({ user, navigate }) {
                <Button
                   variant="danger"
                   size="sm"
-                  // onClick={()=> handleDeleteWorkout(id)}
+                  onClick={()=> handleDeleteUser(id)}
                >
                   Delete Profile
                </Button>

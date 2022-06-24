@@ -82,6 +82,19 @@ function App() {
          .then(navigate("myworkouts"));
    };
 
+	const handleDeleteUser = (id) => {
+      fetch(`http://localhost:9292/users/${id}`, {
+         method: "DELETE",
+      })
+         .then((resp) => resp.json())
+         .then(() => {
+            setUserWorkoutList([]);
+				setUser([])
+				setUserLogin(false)
+         })
+         .then(navigate(""));
+   };
+
    return (
       <div>
          <Navbar fixed="sticky" bg="dark" variant="dark" expand="sm">
@@ -174,7 +187,7 @@ function App() {
             <Route
                path="myprofile"
                element={
-                  <Profile user={user} navigate={navigate} />
+                  <Profile user={user} navigate={navigate} handleDeleteUser={handleDeleteUser} />
                }
             />
          </Routes>
