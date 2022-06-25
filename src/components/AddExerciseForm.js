@@ -3,16 +3,17 @@ import Form from "react-bootstrap/Form";
 import React, { useState } from "react";
 
 function AddExerciseForm({ workoutData, handleWorkoutList }) {
-   const initialExerciseData = {
+
+
+	const initialExerciseData = {
       name: "",
       equipment: "",
-      workout_plan_id: "",
       muscle_group: "",
       movement_type: "",
       training_zone: "",
+		workout_plan_id: "",
    };
 
-	console.log(workoutData.id)
    const muscleGroup = [
       "legs",
       "arms",
@@ -50,7 +51,7 @@ function AddExerciseForm({ workoutData, handleWorkoutList }) {
 
    const handleSubmit = (e) => {
       e.preventDefault();
-      const newExcercise = {
+      const newExercise = {
          name: exerciseData.name,
          equipment: exerciseData.equipment,
          muscle_group: exerciseData.muscle_group,
@@ -58,15 +59,14 @@ function AddExerciseForm({ workoutData, handleWorkoutList }) {
          training_zone: exerciseData.training_zone,
          workout_plan_id: workoutData.id,
       };
+		console.log(newExercise)
       fetch("http://localhost:9292/exercises", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
-         body: JSON.stringify(newExcercise),
+         body: JSON.stringify(newExercise),
       })
          .then((resp) => resp.json())
-         .then((data) => {
-            console.log(data);
-         });
+         .then(() => {});
       setExerciseData(initialExerciseData);
    };
 
